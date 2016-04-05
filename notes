@@ -1,0 +1,17 @@
+func findSet(v) {
+    if (v.parent == v) {
+        return v;
+    } else {
+        v.parent = findSet(v.parent);
+        return v.parent;
+    }
+}
+
+ds class
+    rootList = doubly-linked list
+    methods
+        makeSet
+        findSet (path compression)
+        union (by rank)
+
+
