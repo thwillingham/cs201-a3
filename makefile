@@ -1,8 +1,8 @@
-OBJS=heapsort.o heap.o node.o linkedList.o queue.o stack.o listNode.o helpers.o
+OBJS=kruskal.o heap.o node.o linkedList.o queue.o stack.o listNode.o helpers.o scanner.o graph.o
 heapsort: $(OBJS)
 	gcc -Wall -g $(OBJS) -o heapsort
 
-heapsort.o: heapsort.c heap.h helpers.h node.h linkedList.h stack.h 
+heapsort.o: heapsort.c heap.h helpers.h node.h linkedList.h stack.h
 	gcc -Wall -g -c heapsort.c
 heap.o: heap.c heap.h helpers.h node.h linkedList.h stack.h listNode.h queue.h
 	gcc -Wall -g -c heap.c
@@ -18,6 +18,8 @@ listNode.o: listNode.c listNode.h
 	gcc -Wall -g -c listNode.c
 helpers.o: helpers.c helpers.h node.h heap.h
 	gcc -Wall -g -c helpers.c
+graph.o: graph.c graph.h node.h heap.h
+	gcc -Wall -g -c graph.c
 
 
 

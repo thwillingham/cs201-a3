@@ -7,6 +7,6 @@
 #include "heap.h"
 
 extern int compare(int type, node *a, node *b);
-extern void importFile(heap *h, char* fName);
+extern int importFile(heap *h, char* fName);
 
 #endif

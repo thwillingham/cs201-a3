@@ -21,10 +21,12 @@ heap *newHeap(void)
     return h;
 }
 
-void insertItem(heap *h, int i) // inserts item, but doesn't heapify
+void insertItem(heap *h, int f, int t, int w) // inserts item, but doesn't heapify
 {
     node *n = newNode();
-    n->value = i;
+    n->value = w;
+    n->from = f;
+    n->to = t;
 
     if (heapSize(h)==0)
     {
@@ -41,7 +43,7 @@ void insertItem(heap *h, int i) // inserts item, but doesn't heapify
             n->parent = temp;
             enqueue(h->queue, n);
             pushStack(h->stack, n);
-            
+
         }else if (!temp->rightChild)
         {
             temp->rightChild = n;
@@ -86,7 +88,7 @@ void heapify(heap *h) // wrapper function for siftDown; for ensuring whole tree 
     listNode *ln = seeTail(h->stack);
     while (ln)
     {
-        
+
         siftDown(h, getListNodeValue(ln));
         ln = ln->previous;
     }
