@@ -19,7 +19,7 @@ int compare(int type, node *a, node *b) // compare nodes based on heap type (max
     return 0;
 }
 
-int importFile(heap *h, char* fName) { // read ints from file into heap
+int importFile(heap *h, list *vertList, list *edgeList, char* fName) { // read ints from file into heap
   char* fname = "testInput";
   FILE *fp;
   char* s;
@@ -41,22 +41,39 @@ int importFile(heap *h, char* fName) { // read ints from file into heap
     t = atoi(readToken(fp));
     s = readToken(fp);
     if (strcmp(s, ";") == 0) {
-      //s = readToken(fp);
       w = 1;
-      //printf("%d, %d, %d\n", f, t, w);
-      //continue;
     } else {
         w = atoi(s);
         readToken(fp);
-        //if (!feof(fp)) {
-          //  s = readToken(fp);
-        //}
-        //printf("%d, %d, %d\n", f, t, w);
-        //continue;
     }
 
     printf("%d, %d, %d\n", f, t, w); // insert into graph
-    insertItem(h, f, t, w);
+    /* insert vertices into vertList if not already there */
+    if (isInList(vertList, f) == 0) { //if f vertex isn't in linkedList, add it.
+        node *frm = newNode();
+        frm->value = f;
+        listNode* lnf = newListNode();
+        lnf->value = frm;
+        addToTail(vertList, lnf);
+    }
+    if (isInList(vertList, t) == 0) { //if t vertex isn't in linkedList, add it.
+        node *to = newNode();
+        to->value = t;
+        listNode* lnt = newListNode();
+        lnt->value = to;
+        addToTail(vertList, lnt);
+    }
+    if (edgeIsInList(edgeList, f, t) == 0) { //if f-t or t-f edge isn't in linkedList, add it.
+        node *e = newNode();
+        e->value = w;
+        e->from = f;
+        e->to = t;
+        listNode *lne = newListNode();
+        lne->value = e;
+        addToTail(edgeList, lne);
+    }
+    //insertItem(h, f, t, w);
+
     if (!feof(fp)) {
         s = readToken(fp);
     }

@@ -13,10 +13,10 @@ typedef struct graph graph;
 struct graph {
     int size;
     node** edges;
-    //node vertices[];
+    list* vertices;
 };
 
-extern graph *newGraph(int size);
+extern graph *newGraph(int size, list* vertices);
 extern void heapToGraph(graph *g, heap *h);
 
 #endif

@@ -15,3 +15,12 @@ ds class
         union (by rank)
 
 
+program flow:
+import file
+  -add edges to linked list (if not already in list)
+  -add vertices to linked list (if not already in list)
+  -heapsort edges, output to array
+  -heapsort vertices, output to array
+kruskal
+  -make set of every vertex
+  -traverse edges and update disjoint set accordingly

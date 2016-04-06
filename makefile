@@ -1,9 +1,9 @@
 OBJS=kruskal.o heap.o node.o linkedList.o queue.o stack.o listNode.o helpers.o scanner.o graph.o
-heapsort: $(OBJS)
-	gcc -Wall -g $(OBJS) -o heapsort
+kruskal: $(OBJS)
+	gcc -Wall -g $(OBJS) -o kruskal
 
-heapsort.o: heapsort.c heap.h helpers.h node.h linkedList.h stack.h
-	gcc -Wall -g -c heapsort.c
+kruskal.o: kruskal.c heap.h helpers.h node.h linkedList.h stack.h
+	gcc -Wall -g -c kruskal.c
 heap.o: heap.c heap.h helpers.h node.h linkedList.h stack.h listNode.h queue.h
 	gcc -Wall -g -c heap.c
 node.o: node.c node.h
@@ -32,9 +32,9 @@ graph.o: graph.c graph.h node.h heap.h
 clean:
 	rm -f ./*.o
 
-run: heapsort
-	echo ./heapsort -d testInts
-	./heapsort -d testInts
+run: kruskal
+	echo ./kruskal testInput
+	./kruskal testInput
 
 test: heapsort
 	./heapsort

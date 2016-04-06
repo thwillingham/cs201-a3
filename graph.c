@@ -8,11 +8,11 @@
 #include "stack.h"
 
 
-graph *newGraph(int size) {
+graph *newGraph(int size, list* vertices) {
     graph *g = (graph *) malloc(sizeof(graph));
     if (g==0) { fprintf(stderr,"out of memory"); exit(-1); }
 
-    //edges[size+1];
+    g->vertices = vertices;
     g->edges = malloc(sizeof(node*) * size);
     return g;
 }
@@ -25,4 +25,8 @@ void heapToGraph(graph *g, heap *h) {
         n = popHeap(h);
         g->edges[i] = n;
     }
+}
+
+void printVertices(graph *g) {
+    //g->vertices->
 }

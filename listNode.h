@@ -6,6 +6,7 @@ typedef struct listNode listNode;
 struct listNode
     {
         struct node *value;
+        int val;
         struct listNode *next;
         struct listNode *previous;
     };

@@ -22,7 +22,7 @@ void addToHead(list *l, listNode *ln)
         l->tail = ln;
         l->size++;
     }else
-    {    
+    {
         l->head->previous = ln;
         ln->next = l->head;
         ln->previous = NULL;
@@ -43,7 +43,7 @@ listNode *removeHead(list *l)
     l->head->previous = NULL;
     temp->previous = NULL;
     temp->next = NULL;
-    
+
     return temp;
 }
 
@@ -55,7 +55,7 @@ void addToTail(list *l, listNode *ln)
         l->tail = ln;
         l->size++;
     }else
-    {    
+    {
         l->tail->next = ln;
         ln->previous = l->tail;
         ln->next = NULL;
@@ -84,14 +84,14 @@ listNode *removeTail(list *l)
         return ln;
         }
     }else
-    {   
+    {
         listNode *temp = seeTail(l);
         l->tail = getListNodePrevious(temp);
         //l->tail->next = NULL;
         setListNodeNext(seeTail(l), NULL);
         temp->previous = NULL;
         temp->next = NULL;
-    
+
         return temp;
     }
 }
@@ -101,3 +101,27 @@ int listIsNotEmpty(list *l)
     return l->size;
 }
 
+int isInList(list *l, int i) {
+    listNode *n = l->head;
+    while (n != NULL) {
+        if (n->val == i) {
+           return 1;
+        }
+        n = n->next;
+    }
+    return 0;
+}
+
+int edgeIsInList(list *l, int f, int t) {
+    listNode *n = l->head;
+    while (n != NULL) {
+        if (f == n->value->from && t == n->value->to) {
+          return 1;
+        }
+        if (f == n->value->to && t == n->value->from) {
+          return 1;
+        }
+        n = n->next;
+    }
+    return 0;
+}

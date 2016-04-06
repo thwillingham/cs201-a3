@@ -26,20 +26,24 @@ int main(int argc, char **argv) {
         }
     }
 
-    heap *h = newHeap();
-    h->type = 0; //min-heap
+    heap *e = newHeap();
+    e->type = 0; //min-heap
+    heap *v = newHeap();
+    v->type = 0; //min-heap
+    list *vertList = newLList();
+    list *edgeList = newLList();
     if (f) {
         if (root == -1) {
-            root = importFile(h, argv[f]);
+            root = importFile(e, vertList, edgeList, argv[f]);
         } else {
-            importFile(h,argv[f]);
+            importFile(e, vertList, edgeList, argv[f]);
         }
-        heapify(h);
+        heapify(e);
     }
-    graph *g = newGraph(h->size);
-    heapToGraph(g, h);
+    graph *g = newGraph(e->size, vertList);
+    heapToGraph(g, e);
 
-    printHeap(h);
+    printHeap(e);
     printf("\n");
 
     return 0;
