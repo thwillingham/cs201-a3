@@ -64,6 +64,43 @@ void insertItem(heap *h, int f, int t, int w) // inserts item, but doesn't heapi
     return;
 }
 
+void insertNode(heap *h, node *n) // inserts item, but doesn't heapify
+{
+    if (heapSize(h)==0)
+    {
+        h->rootNode = n;
+        enqueue(h->queue, n);
+        pushStack(h->stack, n);
+    }
+    else
+    {
+        node *temp = pequeue(h->queue); // get last node added
+        if (!temp->leftChild)
+        {
+            temp->leftChild = n;
+            n->parent = temp;
+            enqueue(h->queue, n);
+            pushStack(h->stack, n);
+
+        }else if (!temp->rightChild)
+        {
+            temp->rightChild = n;
+            n->parent = temp;
+            enqueue(h->queue, n);
+            pushStack(h->stack, n);
+            dequeue(h->queue);
+        }else
+        {
+            dequeue(h->queue);
+            temp = pequeue(h->queue);
+            temp->leftChild = n;
+            enqueue(h->queue, n);
+            pushStack(h->stack, n);
+        }
+    }
+    h->size++;
+    return;
+}
 
 
 
@@ -141,6 +178,7 @@ node *popHeap(heap *h) // pop root and maintain heap
     }
     swapNodeValue(h->rootNode, xNode);
     siftDown(h, h->rootNode);
+    h->size--;
     return xNode;
 
 }

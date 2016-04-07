@@ -6,6 +6,7 @@ struct node
         int value;
         int from;
         int to;
+        int size;
         struct node *parent;
         struct node *leftChild;
         struct node *rightChild;

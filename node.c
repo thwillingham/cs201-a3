@@ -6,11 +6,12 @@ node *newNode()
 {
     node *n = (node *) malloc(sizeof(node));
     if (n==0) { fprintf(stderr,"out of memory"); exit(-1); }
-    
+
     n->value = 0;
     n->parent = NULL;
     n->leftChild = NULL;
     n->rightChild = NULL;
+    n->size = 0;
 
     return n;
 }
@@ -92,8 +93,3 @@ int getNodeTo(node *n) {
 void setNodeTo(node *n, int t) {
     n->to = t;
 }
-
-
-
-
-

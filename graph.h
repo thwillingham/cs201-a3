@@ -8,15 +8,18 @@
 #include "node.h"
 #include "linkedList.h"
 #include "stack.h"
+#include "ds.h"
 
 typedef struct graph graph;
 struct graph {
-    int size;
-    node** edges;
-    list* vertices;
+    //int size;
+    int numVerts;
+    int numEdges;
+    ds *disjointSet;
+    node **vertices;
 };
 
-extern graph *newGraph(int size, list* vertices);
+extern graph *newGraph(node **vertices, int numVerts, node **edges, int numEdges);
 extern void heapToGraph(graph *g, heap *h);
 
 #endif

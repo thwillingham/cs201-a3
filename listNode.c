@@ -6,10 +6,11 @@ listNode *newListNode()
 {
     listNode *ln = (listNode *) malloc(sizeof(listNode));
     if (ln==0) { fprintf(stderr,"out of memory"); exit(-1); }
-    
+
     ln->value = NULL; // pointer to tree/heap node
     ln->next = NULL;
     ln->previous = NULL;
+    ln->val = -1;
 
     return ln;
 }

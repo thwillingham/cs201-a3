@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
     char* usage = "Usage: ./heapsort [-v info] integers\n";
     int i = 0;
     int f = 0;
-    int root = -1;
+    int root = 0;
     if (argc == 1) {
         fprintf(stderr, "Error: No parameters specified.\n");
         fprintf(stderr, "%s", usage);
@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     }
     for (i=1; i<argc; i++) {
         if (strcmp(argv[i], "-r") == 0) {
-
+            root =1;
         } else {
             f = i;
         }
@@ -33,18 +33,27 @@ int main(int argc, char **argv) {
     list *vertList = newLList();
     list *edgeList = newLList();
     if (f) {
-        if (root == -1) {
+        if (root == 0) {
             root = importFile(e, vertList, edgeList, argv[f]);
         } else {
             importFile(e, vertList, edgeList, argv[f]);
         }
         heapify(e);
     }
-    graph *g = newGraph(e->size, vertList);
-    heapToGraph(g, e);
+    int numVerts = vertList->size;
+    int numEdges = edgeList->size;
+    printf("verts: %d, Edges: %d\n", numVerts, numEdges);
+    node **vertArray = getSortedVertexArray(vertList);
+    node **edgeArray = getSortedEdgeArray(edgeList);
+    graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges);
 
-    printHeap(e);
-    printf("\n");
 
+
+
+
+
+    //heapToGraph(g, e);
+    //printHeap(e);
+    //printf("\n");
     return 0;
 }

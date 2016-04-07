@@ -16,6 +16,7 @@ struct heap
 
 extern heap *newHeap(void);
 extern void insertItem(heap *h, int f, int t, int w);
+extern void insertNode(heap *h, node *n);
 extern void heapifyUp(heap *h);
 extern void heapifyDown(heap *h);
 extern int heapSize(heap *h);

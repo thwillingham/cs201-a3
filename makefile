@@ -1,8 +1,8 @@
-OBJS=kruskal.o heap.o node.o linkedList.o queue.o stack.o listNode.o helpers.o scanner.o graph.o
+OBJS=kruskal.o heap.o node.o linkedList.o queue.o stack.o listNode.o helpers.o scanner.o graph.o ds.o
 kruskal: $(OBJS)
 	gcc -Wall -g $(OBJS) -o kruskal
 
-kruskal.o: kruskal.c heap.h helpers.h node.h linkedList.h stack.h
+kruskal.o: kruskal.c heap.h helpers.h node.h linkedList.h stack.h ds.h
 	gcc -Wall -g -c kruskal.c
 heap.o: heap.c heap.h helpers.h node.h linkedList.h stack.h listNode.h queue.h
 	gcc -Wall -g -c heap.c
@@ -18,9 +18,10 @@ listNode.o: listNode.c listNode.h
 	gcc -Wall -g -c listNode.c
 helpers.o: helpers.c helpers.h node.h heap.h
 	gcc -Wall -g -c helpers.c
-graph.o: graph.c graph.h node.h heap.h
+graph.o: graph.c graph.h node.h heap.h ds.h
 	gcc -Wall -g -c graph.c
-
+ds.o: ds.c ds.h graph.h heap.h node.h linkedList.h stack.h
+	gcc -Wall -g -c ds.c
 
 
 

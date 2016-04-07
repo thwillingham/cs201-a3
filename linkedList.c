@@ -104,7 +104,10 @@ int listIsNotEmpty(list *l)
 int isInList(list *l, int i) {
     listNode *n = l->head;
     while (n != NULL) {
+    //   printf("i: %d     |", i);
+    //   printf("     n->val: %d\n", n->val);
         if (n->val == i) {
+        //   printf("Vertex already in list\n");
            return 1;
         }
         n = n->next;
@@ -114,11 +117,15 @@ int isInList(list *l, int i) {
 
 int edgeIsInList(list *l, int f, int t) {
     listNode *n = l->head;
+    // printf("\nChecking: from=%d, to=%d\n", f, t);
     while (n != NULL) {
+        // printf("          from=%d, to=%d\n", n->value->from, n->value->to);
         if (f == n->value->from && t == n->value->to) {
+        //   printf("Edge already in list\n");
           return 1;
         }
         if (f == n->value->to && t == n->value->from) {
+        //   printf("Edge already in list\n");
           return 1;
         }
         n = n->next;
