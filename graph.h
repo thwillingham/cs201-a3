@@ -21,6 +21,7 @@ struct graph {
 };
 
 extern graph *newGraph(node **vertices, int numVerts, node **edges, int numEdges);
+extern void printGraph(graph *g, int root);
 extern void makeCorrectSets(ds *d);
 extern void heapToGraph(graph *g, heap *h);
 

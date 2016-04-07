@@ -31,10 +31,24 @@ graph *newGraph(node **vertices, int numVerts, node **edges, int numEdges) {
 //     }
 // }
 
-void printVertices(graph *g) {
-    //g->vertices->
+void printGraph(graph *g, int root) {
+    printf("%d\n", root);
+    node **vertList = g->vertices;
+    int numVerts = g->numVerts;
+    node **edgeList = g->edges;
+    int numEdges = g->numEdges;
+    node *rootSet = binarySearchArray(vertList, numVerts, root);
 }
 
 void makeCorrectSets(ds *d) {
-
+    int i = 0;
+    node *a = NULL;
+    node *b = NULL;
+    for (i=0; i < d->numEdges; i++) {
+        a = findSet(binarySearchArray(d->vertices, d->numVerts, d->edges[i]->from));
+        b = findSet(binarySearchArray(d->vertices, d->numVerts, d->edges[i]->to));
+        if (a != b) {
+            unionSets(d, a,b);
+        }
+    }
 }

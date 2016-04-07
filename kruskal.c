@@ -13,6 +13,7 @@ int main(int argc, char **argv) {
     char* usage = "Usage: ./heapsort [-v info] integers\n";
     int i = 0;
     int f = 0;
+    int r = 0;
     int root = 0;
     if (argc == 1) {
         fprintf(stderr, "Error: No parameters specified.\n");
@@ -21,7 +22,9 @@ int main(int argc, char **argv) {
     }
     for (i=1; i<argc; i++) {
         if (strcmp(argv[i], "-r") == 0) {
-            root =1;
+            r = 1;
+            root = atoi(argv[i+1]);
+            i++;
         } else {
             f = i;
         }
@@ -34,20 +37,21 @@ int main(int argc, char **argv) {
     list *vertList = newLList();
     list *edgeList = newLList();
     if (f) {
-        if (root == 0) {
-            root = importFile(e, vertList, edgeList, argv[f]);
+        if (r == 0) {
+            root = importFile(e, vertList, edgeList, argv[f]); // O(v + e^2)
         } else {
-            importFile(e, vertList, edgeList, argv[f]);
+            importFile(e, vertList, edgeList, argv[f]); // O(v + e^2)
         }
         heapify(e);
     }
     int numVerts = vertList->size;
     int numEdges = edgeList->size;
     //printf("verts: %d, Edges: %d\n", numVerts, numEdges);
-    node **vertArray = getSortedVertexArray(vertList);
-    node **edgeArray = getSortedEdgeArray(edgeList);
-    graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges);
-    makeCorrectSets(g->disjointSet);
+    node **vertArray = getSortedVertexArray(vertList); // O(logv)
+    node **edgeArray = getSortedEdgeArray(edgeList); // O(logv)
+    graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges); // O(v)
+    makeCorrectSets(g->disjointSet); // O(e)
+    printGraph(g, root); // O(v + e)
 
 
 

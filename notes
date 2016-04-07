@@ -24,3 +24,31 @@ import file
 kruskal
   -make set of every vertex
   -traverse edges and update disjoint set accordingly
+
+func bfs(v) {
+    color all vertices white;
+    v.color = grey;
+    var q = new Queue();
+    q.enqueue(v);
+    while (q.size > 0) {
+        u = q.dequeue();
+        for each w adj to u {
+            if w.color == white {
+                w.color = grey;
+                q.enqueue(w);
+            }
+        }
+    u.color = black;
+    }
+}
+
+
+program flow:
+import file
+  -add edges to sorted linked list (if not already in list)
+  -add vertices to sorted linked list (if not already in list)
+  -convert edges to array
+  -convert vertices to array
+kruskal
+  -make set of every vertex
+  -traverse edges and update disjoint set accordingly

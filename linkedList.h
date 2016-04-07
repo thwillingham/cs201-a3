@@ -21,5 +21,6 @@ extern list *newLList(void);
 extern int listIsNotEmpty(list *l);
 extern int isInList(list *l, int i);
 extern int edgeIsInList(list *l, int f, int t);
+extern void addVertInSortedOrder(list *l, listNode *n);
 
 #endif

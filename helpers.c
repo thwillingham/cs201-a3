@@ -47,18 +47,95 @@ int importFile(heap *h, list *vertList, list *edgeList, char* fName) { // read i
         s = readToken(fp);
     }
 
-    printf("\nEdge Read From File: %d, %d, %d\n", f, t, w); // insert into graph
+    printf("Edge Read From File: %d, %d, %d\n", f, t, w); // insert into graph
+
+    listNode *lnf = newListNode();
+    lnf->val = f;
+    listNode *lnt = newListNode();
+    lnt->val = t;
+
+    addVertInSortedOrder(vertList, lnf);
+    addVertInSortedOrder(vertList, lnt);
+
+    // listNode *cur = vertList->head;
+    // listNode *temp = NULL;
+    // int bf = 0;
+    // int bt = 0;
+    // if (cur == NULL) {
+    //     listNode* lnf = newListNode();
+    //     lnf->val = f;
+    //     addToTail(vertList, lnf);
+    // }
+    // while (cur != NULL) {
+    //     if (cur->val == f) {
+    //         bf = 1;
+    //     } else if (cur->val < f) {
+    //         if (cur->next == NULL) {
+    //             listNode* lnf = newListNode();
+    //             lnf->val = f;
+    //             addToTail(vertList, lnf);
+    //         } else if (cur->next->val > f) {
+    //             listNode* lnf = newListNode();
+    //             lnf->val = f;
+    //             temp = cur->next;
+    //             cur->next = lnf;
+    //             lnf->previous = cur;
+    //             lnf->next = temp;
+    //             temp->previous = lnf;
+    //         }
+    //     } else if (f < cur->val && cur->previous == NULL) { //less than first element
+    //         listNode* lnf = newListNode();
+    //         lnf->val = f;
+    //         addToHead(vertList, lnf);
+    //     }
+    //     if (bf == 1) {
+    //         break;
+    //     } else {
+    //         cur = cur->next;
+    //     }
+    // }
+    // cur = vertList->head;
+    // while (cur != NULL) {
+    //     if (cur->val == t) {
+    //         bt = 1;
+    //     } else if (cur->val < t) {
+    //         if (cur->next == NULL) {
+    //             listNode* lnt = newListNode();
+    //             lnt->val = t;
+    //             addToTail(vertList, lnt);
+    //         } else if (cur->next->val > t) {
+    //             listNode* lnt = newListNode();
+    //             lnt->val = t;
+    //             temp = cur->next;
+    //             cur->next = lnt;
+    //             lnt->previous = cur;
+    //             lnt->next = temp;
+    //             temp->previous = lnt;
+    //         }
+    //     } else if (t < cur->val && cur->previous == NULL) { //less than first element
+    //         listNode* lnt = newListNode();
+    //         lnt->val = t;
+    //         addToHead(vertList, lnt);
+    //     }
+    //     if (bt == 1) {
+    //         break;
+    //     } else {
+    //         cur = cur->next;
+    //     }
+    // }
+
+
     /* insert vertices into vertList if not already there */
-    if (isInList(vertList, f) == 0) { //if f vertex isn't in linkedList, add it.
-        listNode* lnf = newListNode();
-        lnf->val = f;
-        addToTail(vertList, lnf);
-    }
-    if (isInList(vertList, t) == 0) { //if t vertex isn't in linkedList, add it.
-        listNode* lnt = newListNode();
-        lnt->val = t;
-        addToTail(vertList, lnt);
-    }
+    // if (isInList(vertList, f) == 0) { //if f vertex isn't in linkedList, add it.
+    //     listNode* lnf = newListNode();
+    //     lnf->val = f;
+    //     addToTail(vertList, lnf);
+    // }
+    // if (isInList(vertList, t) == 0) { //if t vertex isn't in linkedList, add it.
+    //     listNode* lnt = newListNode();
+    //     lnt->val = t;
+    //     addToTail(vertList, lnt);
+    // }
     if (edgeIsInList(edgeList, f, t) == 0) { //if f-t or t-f edge isn't in linkedList, add it.
         node *e = newNode();
         e->value = w;

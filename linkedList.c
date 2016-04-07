@@ -27,6 +27,7 @@ void addToHead(list *l, listNode *ln)
         ln->next = l->head;
         ln->previous = NULL;
         l->head = ln;
+        l->size++;
     };
     return;
 }
@@ -131,4 +132,35 @@ int edgeIsInList(list *l, int f, int t) {
         n = n->next;
     }
     return 0;
+}
+
+void addVertInSortedOrder(list *l, listNode *n) {
+    listNode *cur = l->head;
+    listNode *temp = NULL;
+    if (cur == NULL) {
+        addToTail(l, n);
+        return;
+    } else if (n->val < cur->val) {
+        addToHead(l, n);
+        return;
+    }
+    while (cur != NULL) {
+        if (n->val == cur->val) {
+            return;
+        } else if (n->val > cur->val) {
+            if (cur->next == NULL) {
+                addToTail(l, n);
+                return;
+            } else if (n->val < cur->next->val) {
+                temp = cur->next;
+                cur->next = n;
+                n->previous = cur;
+                n->next = temp;
+                temp->previous = n;
+                l->size++;
+                return;
+            }
+        }
+        cur = cur->next;
+    }
 }
