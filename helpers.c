@@ -50,102 +50,25 @@ int importFile(heap *h, list *vertList, list *edgeList, char* fName) { // read i
     printf("Edge Read From File: %d, %d, %d\n", f, t, w); // insert into graph
 
     listNode *lnf = newListNode();
-    lnf->val = f;
+    node *nf = newNode();
+    lnf->value = nf;
+    nf->value = f;
+
     listNode *lnt = newListNode();
-    lnt->val = t;
+    node *nt = newNode();
+    lnt->value = nt;
+    nt->value = t;
 
-    addVertInSortedOrder(vertList, lnf);
-    addVertInSortedOrder(vertList, lnt);
+    node *e = newNode();
+    e->value = w;
+    e->from = f;
+    e->to = t;
+    listNode *lne = newListNode();
+    lne->value = e;
 
-    // listNode *cur = vertList->head;
-    // listNode *temp = NULL;
-    // int bf = 0;
-    // int bt = 0;
-    // if (cur == NULL) {
-    //     listNode* lnf = newListNode();
-    //     lnf->val = f;
-    //     addToTail(vertList, lnf);
-    // }
-    // while (cur != NULL) {
-    //     if (cur->val == f) {
-    //         bf = 1;
-    //     } else if (cur->val < f) {
-    //         if (cur->next == NULL) {
-    //             listNode* lnf = newListNode();
-    //             lnf->val = f;
-    //             addToTail(vertList, lnf);
-    //         } else if (cur->next->val > f) {
-    //             listNode* lnf = newListNode();
-    //             lnf->val = f;
-    //             temp = cur->next;
-    //             cur->next = lnf;
-    //             lnf->previous = cur;
-    //             lnf->next = temp;
-    //             temp->previous = lnf;
-    //         }
-    //     } else if (f < cur->val && cur->previous == NULL) { //less than first element
-    //         listNode* lnf = newListNode();
-    //         lnf->val = f;
-    //         addToHead(vertList, lnf);
-    //     }
-    //     if (bf == 1) {
-    //         break;
-    //     } else {
-    //         cur = cur->next;
-    //     }
-    // }
-    // cur = vertList->head;
-    // while (cur != NULL) {
-    //     if (cur->val == t) {
-    //         bt = 1;
-    //     } else if (cur->val < t) {
-    //         if (cur->next == NULL) {
-    //             listNode* lnt = newListNode();
-    //             lnt->val = t;
-    //             addToTail(vertList, lnt);
-    //         } else if (cur->next->val > t) {
-    //             listNode* lnt = newListNode();
-    //             lnt->val = t;
-    //             temp = cur->next;
-    //             cur->next = lnt;
-    //             lnt->previous = cur;
-    //             lnt->next = temp;
-    //             temp->previous = lnt;
-    //         }
-    //     } else if (t < cur->val && cur->previous == NULL) { //less than first element
-    //         listNode* lnt = newListNode();
-    //         lnt->val = t;
-    //         addToHead(vertList, lnt);
-    //     }
-    //     if (bt == 1) {
-    //         break;
-    //     } else {
-    //         cur = cur->next;
-    //     }
-    // }
-
-
-    /* insert vertices into vertList if not already there */
-    // if (isInList(vertList, f) == 0) { //if f vertex isn't in linkedList, add it.
-    //     listNode* lnf = newListNode();
-    //     lnf->val = f;
-    //     addToTail(vertList, lnf);
-    // }
-    // if (isInList(vertList, t) == 0) { //if t vertex isn't in linkedList, add it.
-    //     listNode* lnt = newListNode();
-    //     lnt->val = t;
-    //     addToTail(vertList, lnt);
-    // }
-    if (edgeIsInList(edgeList, f, t) == 0) { //if f-t or t-f edge isn't in linkedList, add it.
-        node *e = newNode();
-        e->value = w;
-        e->from = f;
-        e->to = t;
-        listNode *lne = newListNode();
-        lne->value = e;
-        addToTail(edgeList, lne);
-    }
-    //insertItem(h, f, t, w);
+    addNodeInSortedOrder(vertList, lnf);
+    addNodeInSortedOrder(vertList, lnt);
+    addNodeInSortedOrder(edgeList, lne);
 
     if (!feof(fp)) {
         s = readToken(fp);
@@ -154,49 +77,62 @@ int importFile(heap *h, list *vertList, list *edgeList, char* fName) { // read i
   return root;
 }
 
-node ** getSortedVertexArray(list *l) {
-    heap *h = newHeap();
-    listNode *ln = l->head;
-    while (ln != NULL) {
-        insertItem(h, 0, 0, ln->val);
-        ln = ln->next;
-    }
-    // all vertices should be on heap now
-    int i = 0;
-    int size = h->size;
-    node **vertices = malloc(size * sizeof *vertices);
-    node *n = popHeap(h);
-    while (n != NULL) {
-        vertices[i] = n;
-        n = popHeap(h);
-        i++;
-    }
-    // for (i=0; i < size; i++) {
-    //     printf("vertex %d: %d\n", i+1, vertices[i]->value);
-    // }
-    return vertices;
-}
+// node ** getSortedVertexArray(list *l) {
+//     heap *h = newHeap();
+//     listNode *ln = l->head;
+//     while (ln != NULL) {
+//         insertItem(h, 0, 0, ln->val);
+//         ln = ln->next;
+//     }
+//     // all vertices should be on heap now
+//     int i = 0;
+//     int size = h->size;
+//     node **vertices = malloc(size * sizeof *vertices);
+//     node *n = popHeap(h);
+//     while (n != NULL) {
+//         vertices[i] = n;
+//         n = popHeap(h);
+//         i++;
+//     }
+//     // for (i=0; i < size; i++) {
+//     //     printf("vertex %d: %d\n", i+1, vertices[i]->value);
+//     // }
+//     return vertices;
+// }
+//
+// node ** getSortedEdgeArray(list *l) {
+//     heap *h = newHeap();
+//     listNode *ln = l->head;
+//     while (ln != NULL) {
+//         insertNode(h, ln->value);
+//         ln = ln->next;
+//     }
+//     // all vertices should be on heap now
+//     int i = 0;
+//     int size = h->size;
+//     node **edges = malloc(size * sizeof *edges);
+//     node *n = popHeap(h);
+//     while (n != NULL) {
+//         edges[i] = n;
+//         n = popHeap(h);
+//         i++;
+//     }
+//     // for (i=0; i < size; i++) {
+//     //     printf("edge %d: %d - %d, %d\n", i+1, edges[i]->from, edges[i]->to, edges[i]->value);
+//     //
+//     // }
+//     return edges;
+// }
 
-node ** getSortedEdgeArray(list *l) {
-    heap *h = newHeap();
+node **nodeListToArray(list *l) {
+    int i = 0;
+    int size = l->size;
+    node **edges = malloc(size * sizeof *edges);
     listNode *ln = l->head;
     while (ln != NULL) {
-        insertNode(h, ln->value);
+        edges[i] = ln->value;
         ln = ln->next;
-    }
-    // all vertices should be on heap now
-    int i = 0;
-    int size = h->size;
-    node **edges = malloc(size * sizeof *edges);
-    node *n = popHeap(h);
-    while (n != NULL) {
-        edges[i] = n;
-        n = popHeap(h);
         i++;
     }
-    // for (i=0; i < size; i++) {
-    //     printf("edge %d: %d - %d, %d\n", i+1, edges[i]->from, edges[i]->to, edges[i]->value);
-    //
-    // }
     return edges;
 }

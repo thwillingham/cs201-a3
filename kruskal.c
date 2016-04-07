@@ -47,8 +47,10 @@ int main(int argc, char **argv) {
     int numVerts = vertList->size;
     int numEdges = edgeList->size;
     //printf("verts: %d, Edges: %d\n", numVerts, numEdges);
-    node **vertArray = getSortedVertexArray(vertList); // O(logv)
-    node **edgeArray = getSortedEdgeArray(edgeList); // O(logv)
+    // node **vertArray = getSortedVertexArray(vertList); // O(logv)
+    // node **edgeArray = getSortedEdgeArray(edgeList); // O(logv)
+    node **vertArray = nodeListToArray(vertList); // O(logv)
+    node **edgeArray = nodeListToArray(edgeList); // O(logv)
     graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges); // O(v)
     makeCorrectSets(g->disjointSet); // O(e)
     printGraph(g, root); // O(v + e)

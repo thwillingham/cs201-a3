@@ -164,3 +164,34 @@ void addVertInSortedOrder(list *l, listNode *n) {
         cur = cur->next;
     }
 }
+
+void addNodeInSortedOrder(list *l, listNode *n) {
+    listNode *cur = l->head;
+    listNode *temp = NULL;
+    if (cur == NULL) {
+        addToTail(l, n);
+        return;
+    } else if (n->value->value < cur->value->value) {
+        addToHead(l, n);
+        return;
+    }
+    while (cur != NULL) {
+        if (n->value->value == cur->value->value) {
+            return;
+        } else if (n->value->value > cur->value->value) {
+            if (cur->next == NULL) {
+                addToTail(l, n);
+                return;
+            } else if (n->value->value < cur->next->value->value) {
+                temp = cur->next;
+                cur->next = n;
+                n->previous = cur;
+                n->next = temp;
+                temp->previous = n;
+                l->size++;
+                return;
+            }
+        }
+        cur = cur->next;
+    }
+}
