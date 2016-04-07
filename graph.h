@@ -17,9 +17,11 @@ struct graph {
     int numEdges;
     ds *disjointSet;
     node **vertices;
+    node **edges;
 };
 
 extern graph *newGraph(node **vertices, int numVerts, node **edges, int numEdges);
+extern void makeCorrectSets(ds *d);
 extern void heapToGraph(graph *g, heap *h);
 
 #endif

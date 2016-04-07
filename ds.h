@@ -12,14 +12,17 @@
 typedef struct ds ds;
 struct ds {
     int numVerts;
+    int numEdges;
     list *sets;
     node **vertices;
+    node **edges;
 };
 
-extern ds *newDs(node **vertices, int numVerts);
+extern ds *newDs(node **vertices, int numVerts, node **edges, int numEdges);
 extern void makeSet(ds *d, node *n);
 extern node *findSet(node *n);
-extern void removeFromRootList(node *n);
+extern void unionSets(ds *d, node *a, node *b);
+extern void removeFromRootList(ds * d, node *n);
 extern node *binarySearchArray(node **arr, int numVerts, int i);
 
 

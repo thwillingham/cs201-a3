@@ -7,6 +7,7 @@
 #include "linkedList.h"
 #include "stack.h"
 #include "graph.h"
+#include "ds.h"
 
 int main(int argc, char **argv) {
     char* usage = "Usage: ./heapsort [-v info] integers\n";
@@ -42,10 +43,12 @@ int main(int argc, char **argv) {
     }
     int numVerts = vertList->size;
     int numEdges = edgeList->size;
-    printf("verts: %d, Edges: %d\n", numVerts, numEdges);
+    //printf("verts: %d, Edges: %d\n", numVerts, numEdges);
     node **vertArray = getSortedVertexArray(vertList);
     node **edgeArray = getSortedEdgeArray(edgeList);
     graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges);
+    makeCorrectSets(g->disjointSet);
+
 
 
 

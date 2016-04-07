@@ -16,7 +16,8 @@ graph *newGraph(node **vertices, int numVerts, node **edges, int numEdges) {
     g->numEdges = numEdges;
 
     g->vertices = vertices;
-    g->disjointSet = newDs(vertices, numVerts);
+    g->edges = edges;
+    g->disjointSet = newDs(vertices, numVerts, edges, numEdges);
     return g;
 }
 
@@ -32,4 +33,8 @@ graph *newGraph(node **vertices, int numVerts, node **edges, int numEdges) {
 
 void printVertices(graph *g) {
     //g->vertices->
+}
+
+void makeCorrectSets(ds *d) {
+
 }
