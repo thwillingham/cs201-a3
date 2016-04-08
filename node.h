@@ -12,7 +12,7 @@ struct node
         struct node *parent;
         struct node *leftChild;
         struct node *rightChild;
-        struct linkedList *adj;
+        struct list *adj;
     };
 
 extern node *newNode(void);

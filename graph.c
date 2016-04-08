@@ -5,6 +5,7 @@
 #include "heap.h"
 #include "node.h"
 #include "linkedList.h"
+#include "listNode.h"
 #include "stack.h"
 #include "ds.h"
 
@@ -51,7 +52,13 @@ void makeCorrectSets(ds *d) {
         a = findSet(d->edges[i]->leftChild);
         b = findSet(d->edges[i]->rightChild);
         if (a != b) {
-            unionSets(d, a,b);
+            unionSets(d, a, b);
+            listNode *lna = newListNode();
+            lna->value = d->edges[i]->leftChild;
+            listNode *lnb = newListNode();
+            lnb->value = d->edges[i]->rightChild;
+            addToTail(d->edges[i]->leftChild->adj, lnb);
+            addToTail(d->edges[i]->rightChild->adj, lna);
         }
     }
 }
