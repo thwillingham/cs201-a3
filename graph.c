@@ -38,6 +38,7 @@ void printGraph(graph *g, int root) {
     node **edgeList = g->edges;
     int numEdges = g->numEdges;
     node *rootSet = binarySearchArray(vertList, numVerts, root);
+
 }
 
 void makeCorrectSets(ds *d) {
@@ -45,8 +46,10 @@ void makeCorrectSets(ds *d) {
     node *a = NULL;
     node *b = NULL;
     for (i=0; i < d->numEdges; i++) {
-        a = findSet(binarySearchArray(d->vertices, d->numVerts, d->edges[i]->from));
-        b = findSet(binarySearchArray(d->vertices, d->numVerts, d->edges[i]->to));
+        // a = findSet(binarySearchArray(d->vertices, d->numVerts, d->edges[i]->from));
+        // b = findSet(binarySearchArray(d->vertices, d->numVerts, d->edges[i]->to));
+        a = findSet(d->edges[i]->leftChild);
+        b = findSet(d->edges[i]->rightChild);
         if (a != b) {
             unionSets(d, a,b);
         }

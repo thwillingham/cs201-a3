@@ -51,4 +51,8 @@ import file
   -convert vertices to array
 kruskal
   -make set of every vertex
-  -traverse edges and update disjoint set accordingly
+  -traverse edges and update disjoint set accordingly & update adjacency lists for each node.
+print graph
+  -traverse edges in order looking for anything with rootNode
+  -enqueue any edge that meets the criteria
+  -dequeue

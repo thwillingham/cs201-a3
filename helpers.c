@@ -19,8 +19,8 @@ int compare(int type, node *a, node *b) // compare nodes based on heap type (max
     return 0;
 }
 
-int importFile(heap *h, list *vertList, list *edgeList, char* fName) { // read ints from file into heap
-  char* fname = "testInput";
+int importFile(char* fName, list *vertList, list *edgeList) { // read ints from file into heap
+  char* fname = fName;
   FILE *fp;
   char* s;
   int f = 0;
@@ -49,26 +49,29 @@ int importFile(heap *h, list *vertList, list *edgeList, char* fName) { // read i
 
     printf("Edge Read From File: %d, %d, %d\n", f, t, w); // insert into graph
 
-    listNode *lnf = newListNode();
+    listNode *lnf = newListNode();  // vertex node
     node *nf = newNode();
     lnf->value = nf;
     nf->value = f;
 
-    listNode *lnt = newListNode();
+    listNode *lnt = newListNode(); // vertex node
     node *nt = newNode();
     lnt->value = nt;
     nt->value = t;
 
-    node *e = newNode();
+    node *e = newNode();  //edge node
     e->value = w;
     e->from = f;
     e->to = t;
     listNode *lne = newListNode();
     lne->value = e;
 
-    addNodeInSortedOrder(vertList, lnf);
-    addNodeInSortedOrder(vertList, lnt);
-    addNodeInSortedOrder(edgeList, lne);
+    nf = addNodeInSortedOrder(vertList, lnf);
+    nt = addNodeInSortedOrder(vertList, lnt);
+    e = addNodeInSortedOrder(edgeList, lne);
+
+    e->leftChild = nf;
+    e->rightChild = nt;
 
     if (!feof(fp)) {
         s = readToken(fp);

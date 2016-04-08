@@ -1,5 +1,6 @@
 #ifndef NODE_H
 #define NODE_H
+//#include "linkedList.h"
 typedef struct node node;
 struct node
     {
@@ -7,9 +8,11 @@ struct node
         int from;
         int to;
         int size;
+        int color;
         struct node *parent;
         struct node *leftChild;
         struct node *rightChild;
+        struct linkedList *adj;
     };
 
 extern node *newNode(void);

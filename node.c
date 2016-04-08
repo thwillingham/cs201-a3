@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "node.h"
+#include "linkedList.h"
 
 node *newNode()
 {
@@ -12,6 +13,8 @@ node *newNode()
     n->leftChild = NULL;
     n->rightChild = NULL;
     n->size = 0;
+    n->color = 0;
+    n->adj = newLList();
 
     return n;
 }

@@ -38,19 +38,17 @@ int main(int argc, char **argv) {
     list *edgeList = newLList();
     if (f) {
         if (r == 0) {
-            root = importFile(e, vertList, edgeList, argv[f]); // O(v + e^2)
+            root = importFile(argv[f], vertList, edgeList); // O(v + e)
         } else {
-            importFile(e, vertList, edgeList, argv[f]); // O(v + e^2)
+            importFile(argv[f], vertList, edgeList); // O(v + e)
         }
-        heapify(e);
+        //heapify(e);
     }
     int numVerts = vertList->size;
     int numEdges = edgeList->size;
     //printf("verts: %d, Edges: %d\n", numVerts, numEdges);
-    // node **vertArray = getSortedVertexArray(vertList); // O(logv)
-    // node **edgeArray = getSortedEdgeArray(edgeList); // O(logv)
-    node **vertArray = nodeListToArray(vertList); // O(logv)
-    node **edgeArray = nodeListToArray(edgeList); // O(logv)
+    node **vertArray = nodeListToArray(vertList); // O(v)
+    node **edgeArray = nodeListToArray(edgeList); // O(v)
     graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges); // O(v)
     makeCorrectSets(g->disjointSet); // O(e)
     printGraph(g, root); // O(v + e)
