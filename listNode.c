@@ -11,6 +11,7 @@ listNode *newListNode()
     ln->next = NULL;
     ln->previous = NULL;
     ln->val = -1;
+    ln->color = 0;
 
     return ln;
 }

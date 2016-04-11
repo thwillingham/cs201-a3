@@ -9,6 +9,7 @@ struct listNode
         int val;
         struct listNode *next;
         struct listNode *previous;
+        int color;
     };
 
 extern listNode *newListNode(void);

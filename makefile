@@ -34,7 +34,7 @@ clean:
 	rm -f ./*.o
 
 run: kruskal
-	./kruskal testInput
+	./kruskal -r 0 testInput
 
 test: heapsort
 	./heapsort

@@ -51,7 +51,8 @@ int main(int argc, char **argv) {
     node **edgeArray = nodeListToArray(edgeList); // O(v)
     graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges); // O(v)
     makeCorrectSets(g->disjointSet); // O(e)
-    printGraph(g, root); // O(v + e)
+    //printGraph(g, root); // O(v + e)
+    bfsPrint(g, root);
 
 
 

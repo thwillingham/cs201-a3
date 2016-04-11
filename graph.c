@@ -5,6 +5,7 @@
 #include "heap.h"
 #include "node.h"
 #include "linkedList.h"
+#include "queue.h"
 #include "listNode.h"
 #include "stack.h"
 #include "ds.h"
@@ -32,14 +33,56 @@ graph *newGraph(node **vertices, int numVerts, node **edges, int numEdges) {
 //     }
 // }
 
-void printGraph(graph *g, int root) {
-    printf("%d\n", root);
+// void printGraph(graph *g, int root) {
+//     printf("%d\n", root);
+//     node **vertList = g->vertices;
+//     int numVerts = g->numVerts;
+//     node **edgeList = g->edges;
+//     int numEdges = g->numEdges;
+//     node *rootNode = binarySearchArray(vertList, numVerts, root);
+//     listNode *ln = rootNode->adj->head;
+//     printf("(%d)\n", rootNode->value);
+//     int parentValue = rootNode->value;
+//     while (ln != NULL) {
+//         printf("%d(%d)%d", ln->value->value, parentValue, ln->val);
+//         ln = ln->next;
+//     }
+//
+// }
+
+void bfsPrint(graph *g, int root) {
     node **vertList = g->vertices;
     int numVerts = g->numVerts;
-    node **edgeList = g->edges;
-    int numEdges = g->numEdges;
-    node *rootSet = binarySearchArray(vertList, numVerts, root);
-
+    node *rootNode = binarySearchArray(vertList, numVerts, root);
+    printf("rootNode: %d", rootNode->value);
+    rootNode->color = 1;
+    list *q = newLList();
+    listNode *lnr = newListNode();
+    lnr->value = rootNode;
+    addToHead(q, lnr);
+    listNode *cur1 = newListNode();
+    listNode *cur2 = newListNode();
+    listNode *cur3 = newListNode();
+    // printf("here\n\n");
+    // cur1 = rootNode->adj->head;
+    // while (cur1 != 0) {
+    //     printf("%d(%d)%d ", cur1->value->value, 0000, cur1->val);
+    //     cur1 = cur1->next;
+    // }
+    // printf("\n");
+    while (q->size > 0) {
+        cur1 = removeTail(q);
+        printf("%d(%d)%d     \n", cur1->value->value, 0, cur1->val);
+        cur2 = cur1->value->adj->head;
+        while (cur2 != NULL) {
+            cur3 = cur2->next;
+            if (cur2->value->color == 0) {
+                cur2->value->color = 1;
+                addToHead(q, cur2);
+            }
+            cur2 = cur3;
+        }
+    }
 }
 
 void makeCorrectSets(ds *d) {
@@ -54,8 +97,10 @@ void makeCorrectSets(ds *d) {
         if (a != b) {
             unionSets(d, a, b);
             listNode *lna = newListNode();
+            lna->val = d->edges[i]->value;
             lna->value = d->edges[i]->leftChild;
             listNode *lnb = newListNode();
+            lnb->val = d->edges[i]->value;
             lnb->value = d->edges[i]->rightChild;
             addToTail(d->edges[i]->leftChild->adj, lnb);
             addToTail(d->edges[i]->rightChild->adj, lna);

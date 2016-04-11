@@ -8,7 +8,7 @@ node *newNode()
     node *n = (node *) malloc(sizeof(node));
     if (n==0) { fprintf(stderr,"out of memory"); exit(-1); }
 
-    n->value = 0;
+    n->value = -1;
     n->parent = NULL;
     n->leftChild = NULL;
     n->rightChild = NULL;

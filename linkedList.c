@@ -20,6 +20,8 @@ void addToHead(list *l, listNode *ln)
     {
         l->head = ln;
         l->tail = ln;
+        ln->next = NULL;
+        ln->previous = NULL;
         l->size++;
     }else
     {
@@ -92,6 +94,7 @@ listNode *removeTail(list *l)
         setListNodeNext(seeTail(l), NULL);
         temp->previous = NULL;
         temp->next = NULL;
+        l->size--;
 
         return temp;
     }
