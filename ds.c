@@ -22,7 +22,8 @@ ds *newDs(node **vertices, int numVerts, node **edges, int numEdges) {
     // printf("vertex[4] = %d\n", vertices[4]->value);
     for (i=0; i < numVerts; i++) {
         //printf("vertices[%d]\n", i);
-        makeSet(d, vertices[i]);
+        node *n = vertices[i];
+        makeSet(d, n);
     }
     // node *a = binarySearchArray(d->vertices, d->numVerts, 214);
     // node *b = binarySearchArray(d->vertices, d->numVerts, 20);

@@ -8,6 +8,8 @@
 #include "stack.h"
 #include "graph.h"
 #include "ds.h"
+#include "rbt.h"
+#include "array.h"
 
 int main(int argc, char **argv) {
     char* usage = "Usage: ./heapsort [-v info] integers\n";
@@ -36,23 +38,34 @@ int main(int argc, char **argv) {
     v->type = 0; //min-heap
     list *vertList = newLList();
     list *edgeList = newLList();
+    rbt *edgeTree = newRBT(rbtEdgeNodeComparator);
+    array *edgeArray = newArray(arrayEdgeNodeComparator);
+    rbt *vertTree = newRBT(arrayEdgeNodeComparator);
+    array *vertArray = newArray(arrayEdgeNodeComparator);
+
     if (f) {
         if (r == 0) {
-            root = importFile(argv[f], vertList, edgeList); // O(v + e)
+            root = importFile(argv[f], edgeTree, edgeArray, vertTree, vertArray); // O(v + e)
         } else {
-            importFile(argv[f], vertList, edgeList); // O(v + e)
+            importFile(argv[f], edgeTree, edgeArray, vertTree, vertArray); // O(v + e)
         }
         //heapify(e);
     }
-    int numVerts = vertList->size;
-    int numEdges = edgeList->size;
-    //printf("verts: %d, Edges: %d\n", numVerts, numEdges);
-    node **vertArray = nodeListToArray(vertList); // O(v)
-    node **edgeArray = nodeListToArray(edgeList); // O(v)
-    graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges); // O(v)
+    graph *g = newGraph(vertArray->store, vertArray->size, edgeArray->store, edgeArray->size); // O(v)
     makeCorrectSets(g->disjointSet); // O(e)
-    //printGraph(g, root); // O(v + e)
-    bfsPrint(g, root);
+    // bfsPrint(g, root);
+
+
+
+    // int numVerts = vertList->size;
+    // int numEdges = edgeList->size;
+    // ////printf("verts: %d, Edges: %d\n", numVerts, numEdges);
+    // node **vertArray = nodeListToArray(vertList); // O(v)
+    // node **edgeArray = nodeListToArray(edgeList); // O(v)
+    // graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges); // O(v)
+    // makeCorrectSets(g->disjointSet); // O(e)
+    // ////printGraph(g, root); // O(v + e)
+    // bfsPrint(g, root);
 
 
 

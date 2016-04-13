@@ -10,6 +10,7 @@ struct listNode
         struct listNode *next;
         struct listNode *previous;
         int color;
+        int parent;
     };
 
 extern listNode *newListNode(void);

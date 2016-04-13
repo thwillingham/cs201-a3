@@ -14,8 +14,8 @@ struct ds {
     int numVerts;
     int numEdges;
     list *sets;
-    node **vertices;
-    node **edges;
+    void **vertices;
+    void **edges;
 };
 
 extern ds *newDs(node **vertices, int numVerts, node **edges, int numEdges);

@@ -16,8 +16,8 @@ struct graph {
     int numVerts;
     int numEdges;
     ds *disjointSet;
-    node **vertices;
-    node **edges;
+    void **vertices;
+    void **edges;
 };
 
 extern graph *newGraph(node **vertices, int numVerts, node **edges, int numEdges);

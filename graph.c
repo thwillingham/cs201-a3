@@ -70,19 +70,34 @@ void bfsPrint(graph *g, int root) {
     //     cur1 = cur1->next;
     // }
     // printf("\n");
+    int prevHead = -1;
+    int currHead = -1;
+    int lineNumber = 0;
     while (q->size > 0) {
         cur1 = removeTail(q);
-        printf("%d(%d)%d     \n", cur1->value->value, 0, cur1->val);
+        prevHead = currHead;
+        currHead = cur1->parent;
+        if (currHead != prevHead) {
+            printf("\n%d: ", lineNumber);
+            lineNumber++;
+        }
+        if (cur1->value->value == root) {
+            printf("%d", root);
+        } else {
+            printf("%d(%d)%d ", cur1->value->value, cur1->parent, cur1->val);
+        }
         cur2 = cur1->value->adj->head;
         while (cur2 != NULL) {
             cur3 = cur2->next;
             if (cur2->value->color == 0) {
                 cur2->value->color = 1;
+                cur2->parent = cur1->value->value;
                 addToHead(q, cur2);
             }
             cur2 = cur3;
         }
     }
+    printf("\n");
 }
 
 void makeCorrectSets(ds *d) {

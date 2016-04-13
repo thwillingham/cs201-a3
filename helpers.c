@@ -5,6 +5,8 @@
 #include "helpers.h"
 #include "node.h"
 #include "heap.h"
+#include "rbt.h"
+#include "array.h"
 
 int compare(int type, node *a, node *b) // compare nodes based on heap type (max/min)
 {
@@ -19,7 +21,7 @@ int compare(int type, node *a, node *b) // compare nodes based on heap type (max
     return 0;
 }
 
-int importFile(char* fName, list *vertList, list *edgeList) { // read ints from file into heap
+int importFile(char* fName, rbt *edgeTree, array *edgeArray, rbt *vertTree, array *vertArray) { // read ints from file into heap
   char* fname = fName;
   FILE *fp;
   char* s;
@@ -49,29 +51,57 @@ int importFile(char* fName, list *vertList, list *edgeList) { // read ints from 
 
     printf("Edge Read From File: %d, %d, %d\n", f, t, w); // insert into graph
 
-    listNode *lnf = newListNode();  // vertex node
-    node *nf = newNode();
-    lnf->value = nf;
-    nf->value = f;
-
-    listNode *lnt = newListNode(); // vertex node
-    node *nt = newNode();
-    lnt->value = nt;
-    nt->value = t;
-
     node *e = newNode();  //edge node
     e->value = w;
     e->from = f;
     e->to = t;
-    listNode *lne = newListNode();
-    lne->value = e;
+    if (findRBT(edgeTree, e) == 0) {
+        addRBT(edgeTree, e);
+        addArray(edgeArray, e);
+    } else {
+        printf("   %d, %d already exists in tree.\n", f, t);
+    }
 
-    nf = addNodeInSortedOrder(vertList, lnf);
-    nt = addNodeInSortedOrder(vertList, lnt);
-    e = addNodeInSortedOrder(edgeList, lne);
+    node *nf = newNode();
+    nf->value = f;
+    node *nt = newNode();
+    nt->value = t;
 
-    e->leftChild = nf;
-    e->rightChild = nt;
+
+    if (findRBT(vertTree, nf) == 0) {
+        addRBT(vertTree, nf);
+        addArray(vertArray, nf);
+    }
+
+    if (findRBT(vertTree, nt) == 0) {
+        addRBT(vertTree, nt);
+        addArray(vertArray, nt);
+    }
+
+
+    // listNode *lnf = newListNode();  // vertex node
+    // node *nf = newNode();
+    // lnf->value = nf;
+    // nf->value = f;
+    //
+    // listNode *lnt = newListNode(); // vertex node
+    // node *nt = newNode();
+    // lnt->value = nt;
+    // nt->value = t;
+    //
+    // node *e = newNode();  //edge node
+    // e->value = w;
+    // e->from = f;
+    // e->to = t;
+    // listNode *lne = newListNode();
+    // lne->value = e;
+    //
+    // nf = addNodeInSortedOrder(vertList, lnf);
+    // nt = addNodeInSortedOrder(vertList, lnt);
+    // e = addNodeInSortedOrder(edgeList, lne);
+    //
+    // e->leftChild = nf;
+    // e->rightChild = nt;
 
     if (!feof(fp)) {
         s = readToken(fp);
@@ -138,4 +168,30 @@ node **nodeListToArray(list *l) {
         i++;
     }
     return edges;
+}
+
+int rbtEdgeNodeComparator(void *e1, void *e2) {
+    node *n1 = e1;
+    node *n2 = e2;
+    if (n1->from == n2->from && n1->to == n2->to) {
+        return 0;
+    } else if (n1->from == n2->to && n1->to == n2->from) {
+        return 0;
+    } else if (n1->from < n2->from) {
+        return -1;
+    } else {
+        return 1;
+    }
+}
+
+int arrayEdgeNodeComparator(void *e1, void *e2) {
+    node *n1 = e1;
+    node *n2 = e2;
+    if (n1->value == n2->value) {
+        return 0;
+    } else if (n1->value < n2->value) {
+        return -1;
+    } else {
+        return 1;
+    }
 }

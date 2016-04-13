@@ -12,6 +12,7 @@ listNode *newListNode()
     ln->previous = NULL;
     ln->val = -1;
     ln->color = 0;
+    ln->parent = -1;
 
     return ln;
 }
