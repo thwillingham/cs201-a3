@@ -13,6 +13,7 @@ listNode *newListNode()
     ln->val = -1;
     ln->color = 0;
     ln->parent = -1;
+    ln->parentNode = NULL;
 
     return ln;
 }

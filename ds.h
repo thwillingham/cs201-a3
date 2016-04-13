@@ -8,22 +8,22 @@
 #include "node.h"
 #include "linkedList.h"
 #include "stack.h"
+#include "stack.h"
+#include "array.h"
 
 typedef struct ds ds;
 struct ds {
-    int numVerts;
-    int numEdges;
     list *sets;
-    void **vertices;
-    void **edges;
+    array *vertices;
+    array *edges;
 };
 
-extern ds *newDs(node **vertices, int numVerts, node **edges, int numEdges);
+extern ds *newDs(array *vertices, array *edges);
 extern void makeSet(ds *d, node *n);
 extern node *findSet(node *n);
 extern void unionSets(ds *d, node *a, node *b);
 extern void removeFromRootList(ds * d, node *n);
-extern node *binarySearchArray(node **arr, int numVerts, int i);
+extern node *binarySearchArray(array *a, int i);
 
 
 #endif

@@ -1,12 +1,13 @@
 import random
+import sys
 
-numberToGenerate = 1000000
-maxVertexNumber = 1000
-maxNumberOfSpace = 2
-maxWeight = 1000
+maxGeneratorNumber = int(sys.argv[1]);
+maxVertexNumber = int(sys.argv[2]); 
+maxNumberOfSpace = 10
+maxWeight = 100
 
 def main():
-    for i in range(0, numberToGenerate):
+    for i in range(0, maxGeneratorNumber):
         print(str(random.randint(0, maxVertexNumber)))
         print(" " * random.randint(0, maxNumberOfSpace))
         print(str(random.randint(0, maxVertexNumber)))

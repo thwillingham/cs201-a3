@@ -8,22 +8,22 @@
 #include "listNode.h"
 #include "stack.h"
 
-ds *newDs(node **vertices, int numVerts, node **edges, int numEdges) {
+ds *newDs(array *vertices, array *edges) {
     ds *d = (ds *) malloc(sizeof(ds));
     if (d==0) { fprintf(stderr,"out of memory"); exit(-1); }
-    d->numVerts = numVerts;
     d->vertices = vertices;
-    d->numEdges = numEdges;
     d->edges = edges;
     d->sets = newLList();
 
     int i = 0;
     // printf("vertexArraySize: %d\n", size);
     // printf("vertex[4] = %d\n", vertices[4]->value);
-    for (i=0; i < numVerts; i++) {
+    for (i=0; i < vertices->size; i++) {
         //printf("vertices[%d]\n", i);
-        node *n = vertices[i];
+        node *n = vertices->store[i];
+        //printf("newDs: %d\n", n->value);
         makeSet(d, n);
+        //printf("parent: %d\n", n->parent->value);
     }
     // node *a = binarySearchArray(d->vertices, d->numVerts, 214);
     // node *b = binarySearchArray(d->vertices, d->numVerts, 20);
@@ -91,17 +91,19 @@ void removeFromRootList(ds *d, node *n) {
     }
 }
 
-node *binarySearchArray(node **arr, int arrSize, int i) {
+node *binarySearchArray(array *a, int i) {
     int f = 0;
-    int l = arrSize - 1;
+    int l = a->size;
     int m = (f+l)/2;
+    node *cur = NULL;
 
     while (f <= l) {
-        if (arr[m]->value < i) {
+        cur = a->store[m];
+        if (cur->value < i) {
             f = m + 1;
-        } else if (arr[m]->value == i) {
+        } else if (cur->value == i) {
             //printf("%d found at location %d.\n", i, m+1);
-            return arr[m];
+            return cur;
             break;
         } else {
             l = m - 1;

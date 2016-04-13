@@ -7,6 +7,7 @@
 #include "heap.h"
 #include "rbt.h"
 #include "array.h"
+#include "listNode.h"
 
 int compare(int type, node *a, node *b) // compare nodes based on heap type (max/min)
 {
@@ -49,34 +50,41 @@ int importFile(char* fName, rbt *edgeTree, array *edgeArray, rbt *vertTree, arra
         s = readToken(fp);
     }
 
-    printf("Edge Read From File: %d, %d, %d\n", f, t, w); // insert into graph
+    //printf("Edge Read From File: %d, %d, %d\n", f, t, w); // insert into graph
+
+    node *nf = newNode(); //vertex from node
+    nf->value = f;
+    node *nt = newNode(); //vertex to node
+    nt->value = t;
 
     node *e = newNode();  //edge node
     e->value = w;
     e->from = f;
     e->to = t;
-    if (findRBT(edgeTree, e) == 0) {
-        addRBT(edgeTree, e);
-        addArray(edgeArray, e);
-    } else {
-        printf("   %d, %d already exists in tree.\n", f, t);
-    }
 
-    node *nf = newNode();
-    nf->value = f;
-    node *nt = newNode();
-    nt->value = t;
-
-
-    if (findRBT(vertTree, nf) == 0) {
+    node *nodeFrom = findRBT(vertTree, nf);
+    if (nodeFrom == 0) {
         addRBT(vertTree, nf);
         addArray(vertArray, nf);
+        nodeFrom = nf;
     }
 
-    if (findRBT(vertTree, nt) == 0) {
+    node *nodeTo = findRBT(vertTree, nt);
+    if (nodeTo == 0) {
         addRBT(vertTree, nt);
         addArray(vertArray, nt);
+        nodeTo = nt;
     }
+
+    node *nodeEdge = findRBT(edgeTree, e);
+    if (nodeEdge == 0) {
+        addRBT(edgeTree, e);
+        addArray(edgeArray, e);
+        nodeEdge = e;
+    }
+
+    nodeEdge->leftChild = nodeFrom;
+    nodeEdge->rightChild = nodeTo;
 
 
     // listNode *lnf = newListNode();  // vertex node
@@ -107,6 +115,8 @@ int importFile(char* fName, rbt *edgeTree, array *edgeArray, rbt *vertTree, arra
         s = readToken(fp);
     }
   }
+  sortArray(edgeArray);
+  sortArray(vertArray);
   return root;
 }
 
@@ -190,6 +200,18 @@ int arrayEdgeNodeComparator(void *e1, void *e2) {
     if (n1->value == n2->value) {
         return 0;
     } else if (n1->value < n2->value) {
+        return -1;
+    } else {
+        return 1;
+    }
+}
+
+int listNodeComparator(void *e1, void *e2){
+    listNode *n1 = e1;
+    listNode *n2 = e2;
+    if (n1->val == n2->val) {
+        return 0;
+    } else if (n1->val < n2->val) {
         return -1;
     } else {
         return 1;

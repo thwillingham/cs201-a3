@@ -11,6 +11,7 @@ struct listNode
         struct listNode *previous;
         int color;
         int parent;
+        struct listNode *parentNode;
     };
 
 extern listNode *newListNode(void);

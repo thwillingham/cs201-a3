@@ -15,6 +15,7 @@ extern node **getSortedEdgeArray(list *l);
 extern node **nodeListToArray(list *l);
 extern int rbtEdgeNodeComparator(void *e1, void *e2);
 extern int arrayEdgeNodeComparator(void *e1, void *e2);
+extern int listNodeComparator(void *e1, void *e2);
 
 
 #endif

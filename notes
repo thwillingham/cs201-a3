@@ -56,3 +56,38 @@ print graph
   -traverse edges in order looking for anything with rootNode
   -enqueue any edge that meets the criteria
   -dequeue
+
+
+
+func printGraph {
+    if parent in tree, sort edge array; print edge array; make new empty edge array; make new empty tree; add vertex to tree
+    else add edge to list
+}
+
+func bfsPrintNew() {
+    get root as ll node
+    add root to rbt
+    add root to array
+    add root to queue
+    while queue is not empty {
+        cur = dequeue
+        if (cur->parent in rbt) {
+            sort array
+            print all nodes in array; and dequeue that number of nodes;
+            make new rbt
+            make new array
+            add cur to rbt
+            add cur to array
+        }
+        adjCur = head node of cur1 adjacency list
+        while adjCur is not null {
+            temp = adjCur->next
+            if (adjCur.color == 0) {
+                add adjCur to queue
+                adjCur.color = 1
+                adjCur.parent = cur
+            }
+            adjCur = temp
+        }
+    }
+}

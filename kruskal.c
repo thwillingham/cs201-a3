@@ -51,9 +51,9 @@ int main(int argc, char **argv) {
         }
         //heapify(e);
     }
-    graph *g = newGraph(vertArray->store, vertArray->size, edgeArray->store, edgeArray->size); // O(v)
+    graph *g = newGraph(vertArray, edgeArray); // O(v)
     makeCorrectSets(g->disjointSet); // O(e)
-    // bfsPrint(g, root);
+    bfsPrintOld(g, root);
 
 
 
