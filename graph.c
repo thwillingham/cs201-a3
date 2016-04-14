@@ -162,6 +162,7 @@ void bfsPrintOld(graph *g, int root) {
     array *a = newArray(listNodeComparator);
     list *q = newLList();
     int i = 0;
+    int lineNumber = 0;
 
     /* get root node */
     node *rootNode = binarySearchArray(g->vertices, root);
@@ -181,41 +182,48 @@ void bfsPrintOld(graph *g, int root) {
 
     while (q->size > 0) {
         cur = removeTail(q); // get next item in queue
-        if (findRBT(t, cur->parentNode) == 0) {
-            sortArray(a);
+        if (findRBT(t, cur->parentNode) != 0) { // node is in tree
+            //printf("arraySize: %d", a->size);
+            printf("%d: ", lineNumber);
+            lineNumber++;
             for (i = 0; i < a->size; i++) {
                 listNode *ln = a->store[i];
-                printf("%d(%d)%d\n", ln->value->value, ln->parentNode->value->value, ln->val);
-                removeTail(q);
+                printf("%d(%d)%d; ", ln->value->value, ln->parent, ln->val);
             }
+            printf("\n");
+            freeRBT(t);
+            freeArray(a);
             t = newRBT(listNodeComparator);
             a = newArray(listNodeComparator);
             addRBT(t, cur);
             addArray(a, cur);
+        } else {
+            addRBT(t, cur);
+            addArray(a, cur);
+            cur->value->color = 1;
         }
 
         adjCur = cur->value->adj->head;
         while (adjCur != NULL) {
             temp = adjCur->next;
-            if (adjCur->color == 0) {
-                addToHead(q, adjCur);
-                adjCur->color = 1;
+            if (adjCur->value->color == 0) {
+                adjCur->value->color = 1;
                 adjCur->parentNode = cur;
+                adjCur->parent = cur->value->value;
+                addToHead(q, adjCur);
+                //printf("adjCurValue: %d", adjCur->value->value);
             }
             adjCur = temp;
         }
-
-
-        // cur2 = cur1->value->adj->head; //set to root of cur1 adjacency list
-        // while (cur2 != NULL) {
-        //     cur3 = cur2->next; // save next node since current node pointers may be changed
-        //     if (cur2->value->color == 0) { // if this vertex hasn't been seen
-        //         cur2->value->color = 1;
-        //         addToHead(q, cur2);  // add to queue
-        //         cur2->parent = cur1->value->value;
-        //         cur2->parentNode = cur1->value;
-        //     }
-        //     cur2 = cur3;
-        // }
     }
+    sortArray(a);
+    printf("%d: ", lineNumber);
+    for (i = 0; i < a->size; i++) {
+        listNode *ln = a->store[i];
+        printf("%d(%d)%d; ", ln->value->value, ln->parent, ln->val);
+    }
+    printf("\n");
+    freeRBT(t);
+    freeArray(a);
+
 }
