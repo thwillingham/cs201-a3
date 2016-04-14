@@ -161,8 +161,7 @@ void bfsPrintOld(graph *g, int root) {
     rbt *t = newRBT(listNodeComparator);
     array *a = newArray(listNodeComparator);
     list *q = newLList();
-    int i = 0;
-    int lineNumber = 0;
+    int i = 0, lineNumber = 0, treeWeight = 0, reachable = 1;
 
     /* get root node */
     node *rootNode = binarySearchArray(g->vertices, root);
@@ -186,17 +185,25 @@ void bfsPrintOld(graph *g, int root) {
             //printf("arraySize: %d", a->size);
             printf("%d: ", lineNumber);
             lineNumber++;
-            for (i = 0; i < a->size; i++) {
-                listNode *ln = a->store[i];
-                printf("%d(%d)%d; ", ln->value->value, ln->parent, ln->val);
+            if (cur->value->value == root) {
+                printf("%d;", root);
+            } else {
+                for (i = 0; i < a->size; i++) {
+                    listNode *ln = a->store[i];
+                    printf("%d(%d)%d; ", ln->value->value, ln->parent, ln->val);
+                    treeWeight += ln->val;
+                    reachable++;
+                }
             }
             printf("\n");
             freeRBT(t);
             freeArray(a);
             t = newRBT(listNodeComparator);
             a = newArray(listNodeComparator);
-            addRBT(t, cur);
-            addArray(a, cur);
+            if (cur->value->value != root) {
+                addRBT(t, cur);
+                addArray(a, cur);
+            }
         } else {
             addRBT(t, cur);
             addArray(a, cur);
@@ -221,9 +228,12 @@ void bfsPrintOld(graph *g, int root) {
     for (i = 0; i < a->size; i++) {
         listNode *ln = a->store[i];
         printf("%d(%d)%d; ", ln->value->value, ln->parent, ln->val);
+        treeWeight += ln->val;
+        reachable++;
     }
     printf("\n");
     freeRBT(t);
     freeArray(a);
-
+    printf("weight: %d\n", treeWeight);
+    printf("unreachable: %d\n", g->vertices->size - reachable);
 }
