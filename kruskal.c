@@ -32,49 +32,20 @@ int main(int argc, char **argv) {
         }
     }
 
-    heap *e = newHeap();
-    e->type = 0; //min-heap
-    heap *v = newHeap();
-    v->type = 0; //min-heap
-    list *vertList = newLList();
-    list *edgeList = newLList();
     rbt *edgeTree = newRBT(rbtEdgeNodeComparator);
     array *edgeArray = newArray(arrayEdgeNodeComparator);
     rbt *vertTree = newRBT(arrayEdgeNodeComparator);
     array *vertArray = newArray(arrayEdgeNodeComparator);
-
     if (f) {
         if (r == 0) {
-            root = importFile(argv[f], edgeTree, edgeArray, vertTree, vertArray); // O(v + e)
+            root = importFile(argv[f], edgeTree, edgeArray, vertTree, vertArray); // O(v logv)
         } else {
-            importFile(argv[f], edgeTree, edgeArray, vertTree, vertArray); // O(v + e)
+            importFile(argv[f], edgeTree, edgeArray, vertTree, vertArray); // O(v logv)
         }
         //heapify(e);
     }
     graph *g = newGraph(vertArray, edgeArray); // O(v)
     makeCorrectSets(g->disjointSet); // O(e)
-    bfsPrintOld(g, root);
-
-
-
-    // int numVerts = vertList->size;
-    // int numEdges = edgeList->size;
-    // ////printf("verts: %d, Edges: %d\n", numVerts, numEdges);
-    // node **vertArray = nodeListToArray(vertList); // O(v)
-    // node **edgeArray = nodeListToArray(edgeList); // O(v)
-    // graph *g = newGraph(vertArray, numVerts, edgeArray, numEdges); // O(v)
-    // makeCorrectSets(g->disjointSet); // O(e)
-    // ////printGraph(g, root); // O(v + e)
-    // bfsPrint(g, root);
-
-
-
-
-
-
-
-    //heapToGraph(g, e);
-    //printHeap(e);
-    //printf("\n");
+    bfsPrint(g, root); // O(v + e)
     return 0;
 }

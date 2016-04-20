@@ -26,10 +26,8 @@ int importFile(char* fName, rbt *edgeTree, array *edgeArray, rbt *vertTree, arra
   char* fname = fName;
   FILE *fp;
   char* s;
-  int f = 0;
-  int t = 0;
-  int w = 0;
-  int root = 0;
+  int f = 0, t = 0, w = 0, root = 0;
+  node *nodeFrom = NULL, *nodeTo = NULL, *nodeEdge = NULL, *nf = NULL, *nt = NULL, *e = NULL;
   fp = fopen(fname, "r");
   if (fp == NULL) {
     perror("error\n");
@@ -38,7 +36,10 @@ int importFile(char* fName, rbt *edgeTree, array *edgeArray, rbt *vertTree, arra
   s = readToken(fp);
   if (!feof(fp)) {
     root = atoi(s);
-  }
+    } else {
+        fprintf(stderr, "Error: Input file is empty.\n");
+        exit(0);
+    }
   while (!feof(fp)) {
     f = atoi(s);
     t = atoi(readToken(fp));
@@ -50,122 +51,52 @@ int importFile(char* fName, rbt *edgeTree, array *edgeArray, rbt *vertTree, arra
         s = readToken(fp);
     }
 
-    //printf("Edge Read From File: %d, %d, %d\n", f, t, w); // insert into graph
 
-    node *nf = newNode(); //vertex from node
-    nf->value = f;
-    node *nt = newNode(); //vertex to node
-    nt->value = t;
-
-    node *e = newNode();  //edge node
+    e = newNode();  //edge node
     e->value = w;
     e->from = f;
     e->to = t;
 
-    node *nodeFrom = findRBT(vertTree, nf);
-    if (nodeFrom == 0) {
-        addRBT(vertTree, nf);
-        addArray(vertArray, nf);
-        nodeFrom = nf;
-    }
 
-    node *nodeTo = findRBT(vertTree, nt);
-    if (nodeTo == 0) {
-        addRBT(vertTree, nt);
-        addArray(vertArray, nt);
-        nodeTo = nt;
-    }
-
-    node *nodeEdge = findRBT(edgeTree, e);
+    nodeEdge = findRBT(edgeTree, e);
     if (nodeEdge == 0) {
         addRBT(edgeTree, e);
         addArray(edgeArray, e);
         nodeEdge = e;
+
+        nf = newNode(); //vertex from node
+        nf->value = f;
+        nt = newNode(); //vertex to node
+        nt->value = t;
+
+        nodeFrom = findRBT(vertTree, nf);
+        if (nodeFrom == 0) {
+            addRBT(vertTree, nf);
+            addArray(vertArray, nf);
+            nodeFrom = nf;
+        }
+
+        nodeTo = findRBT(vertTree, nt);
+        if (nodeTo == 0) {
+            addRBT(vertTree, nt);
+            addArray(vertArray, nt);
+            nodeTo = nt;
+        }
+        nodeEdge->leftChild = nodeFrom;
+        nodeEdge->rightChild = nodeTo;
     }
-
-    nodeEdge->leftChild = nodeFrom;
-    nodeEdge->rightChild = nodeTo;
-
-
-    // listNode *lnf = newListNode();  // vertex node
-    // node *nf = newNode();
-    // lnf->value = nf;
-    // nf->value = f;
-    //
-    // listNode *lnt = newListNode(); // vertex node
-    // node *nt = newNode();
-    // lnt->value = nt;
-    // nt->value = t;
-    //
-    // node *e = newNode();  //edge node
-    // e->value = w;
-    // e->from = f;
-    // e->to = t;
-    // listNode *lne = newListNode();
-    // lne->value = e;
-    //
-    // nf = addNodeInSortedOrder(vertList, lnf);
-    // nt = addNodeInSortedOrder(vertList, lnt);
-    // e = addNodeInSortedOrder(edgeList, lne);
-    //
-    // e->leftChild = nf;
-    // e->rightChild = nt;
 
     if (!feof(fp)) {
         s = readToken(fp);
     }
   }
+  freeRBT(edgeTree);
+  freeRBT(vertTree);
   sortArray(edgeArray);
   sortArray(vertArray);
   return root;
 }
 
-// node ** getSortedVertexArray(list *l) {
-//     heap *h = newHeap();
-//     listNode *ln = l->head;
-//     while (ln != NULL) {
-//         insertItem(h, 0, 0, ln->val);
-//         ln = ln->next;
-//     }
-//     // all vertices should be on heap now
-//     int i = 0;
-//     int size = h->size;
-//     node **vertices = malloc(size * sizeof *vertices);
-//     node *n = popHeap(h);
-//     while (n != NULL) {
-//         vertices[i] = n;
-//         n = popHeap(h);
-//         i++;
-//     }
-//     // for (i=0; i < size; i++) {
-//     //     printf("vertex %d: %d\n", i+1, vertices[i]->value);
-//     // }
-//     return vertices;
-// }
-//
-// node ** getSortedEdgeArray(list *l) {
-//     heap *h = newHeap();
-//     listNode *ln = l->head;
-//     while (ln != NULL) {
-//         insertNode(h, ln->value);
-//         ln = ln->next;
-//     }
-//     // all vertices should be on heap now
-//     int i = 0;
-//     int size = h->size;
-//     node **edges = malloc(size * sizeof *edges);
-//     node *n = popHeap(h);
-//     while (n != NULL) {
-//         edges[i] = n;
-//         n = popHeap(h);
-//         i++;
-//     }
-//     // for (i=0; i < size; i++) {
-//     //     printf("edge %d: %d - %d, %d\n", i+1, edges[i]->from, edges[i]->to, edges[i]->value);
-//     //
-//     // }
-//     return edges;
-// }
 
 node **nodeListToArray(list *l) {
     int i = 0;
@@ -183,12 +114,32 @@ node **nodeListToArray(list *l) {
 int rbtEdgeNodeComparator(void *e1, void *e2) {
     node *n1 = e1;
     node *n2 = e2;
-    if (n1->from == n2->from && n1->to == n2->to) {
+    if (n1->from == n2->from && n1->to == n2->to) {  // equals current edge
         return 0;
-    } else if (n1->from == n2->to && n1->to == n2->from) {
+    } else if (n1->from == n2->to && n1->to == n2->from) { // equals current edge reversed
         return 0;
-    } else if (n1->from < n2->from) {
+    } else if (n1->from + n1->to < n2->from + n2->to) { // combined value is less than combined value of current edge
         return -1;
+    } else if (n1->from + n1->to > n2->from + n2->to) { // combined value is greater than combined value of current edge
+        return 1;
+    } else if (n1->from + n1->to == n2->from + n2->to) { // combined value is equal to combined value of current edge
+        int a = 0;
+        int b = 0;
+        if (n1->from < n1->to) { // get minimum vertex in from edge
+            a = n1->from;
+        } else {
+            a = n1->to;
+        }
+        if (n2->from < n2->to) { // get minimum vertex in to edge
+            b = n2->from;
+        } else {
+            b = n2->to;
+        }
+        if (a < b) { // compare lesser vertices of both edges
+            return -1;
+        } else {
+            return 1;
+        }
     } else {
         return 1;
     }
